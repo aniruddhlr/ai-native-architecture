@@ -65,17 +65,37 @@ AI Native Architecture organizes your codebase to minimize context waste and fil
 
 ## Get started (60 seconds)
 
-```bash
-# 1 — Scaffold a new project
-npx @aniruddhlr/create-ai-native-app my-app
+You can scaffold a new project using either the NPM registry or directly from GitHub:
 
-# 2 — Navigate and Install
+### Option A: From NPM (Vite-Style)
+```bash
+npm create @aniruddhlr/ai-native-app my-app
+# or
+npx @aniruddhlr/create-ai-native-app my-app
+```
+
+### Option B: Directly from GitHub (Zero NPM Publish Needed)
+```bash
+npx github:aniruddhlr/ai-native-architecture my-app
+```
+
+Once scaffolded, navigate into the directory and launch the development environment:
+```bash
 cd my-app
 npm install
-
-# 3 — Run Development server and start coding
 npm run dev
 ```
+
+<details>
+<summary><b>Running / Testing Locally</b></summary>
+
+If you have cloned this repository and want to run or test the scaffolding tool locally:
+
+* **Method 1: Link globally on your system (Recommended)**:
+  Run `npm link` from the root of this cloned repository, then run `create-ai-native-app my-app` from any directory on your Mac.
+* **Method 2: Execute script directly with Node**:
+  Run `node /Users/aniruddh/Anirudh/projects/ai-native-architecture/bin/create-ai-native-app.js my-app` from the directory where you want to scaffold the new app.
+</details>
 
 ## Proof
 
