@@ -145,7 +145,20 @@ export default defineConfig({
 });
 `);
 
-write("AGENTS.md", `# AGENTS.md
+// Copy all template files from templates/ directory
+const templatesPath = path.resolve(__dirname, "../templates");
+if (fs.existsSync(templatesPath)) {
+  const files = fs.readdirSync(templatesPath);
+  for (const file of files) {
+    const src = path.join(templatesPath, file);
+    const dest = path.join(root, file);
+    if (fs.statSync(src).isFile()) {
+      fs.copyFileSync(src, dest);
+    }
+  }
+} else {
+  // Fallback: write standard AGENTS.md if templates folder is not found
+  write("AGENTS.md", `# AGENTS.md
 
 ## Purpose
 
@@ -192,6 +205,17 @@ Nearby tests updated: yes.
 - Avoid global utils.ts, helpers.ts, common.ts, and misc.ts.
 - Do not move code to shared after one use.
 - Keep agent-loaded docs compact.
+`);
+}
+
+// Generate the Cursor auto-load rules configuration
+fs.mkdirSync(path.join(root, ".cursor/rules"), { recursive: true });
+write(".cursor/rules/ai-native.mdc", `---
+description: AI Native Architecture project rules
+alwaysApply: true
+---
+
+Follow AGENTS.md. Optimize for local feature context, no duplicate business logic, and fewer than 10 files to understand a feature.
 `);
 
 write("src/app/router.tsx", `export function Router() {
@@ -553,7 +577,7 @@ export function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
 }
 `);
 
-write("src/shared/http/client.ts", `export async function request<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
+write("src/shared/http/httpClient.ts", `export async function request<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
   const response = await fetch(input, init);
 
   if (!response.ok) {
@@ -564,7 +588,7 @@ write("src/shared/http/client.ts", `export async function request<T>(input: Requ
 }
 `);
 
-write("src/shared/config/env.ts", `export const env = {
+write("src/shared/config/appConfig.ts", `export const env = {
   mode: import.meta.env.MODE
 };
 `);
