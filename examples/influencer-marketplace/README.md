@@ -1,6 +1,20 @@
-# Influencer Marketplace Example
+# Marketplace Boundary Example
 
-An AI Native Architecture example for a marketplace app with creators, campaigns, and brands.
+## Purpose
+
+Show the standard on a larger marketplace with creators, campaigns, and brands.
+
+This is a secondary example for multi-domain systems.
+
+## Load
+
+Audience: humans and agents evaluating larger product boundaries.
+
+Use this after the Todo proof case.
+
+## Protocol
+
+Organize by business domain first, feature second:
 
 ```txt
 src/
@@ -18,12 +32,6 @@ src/
         state.ts
         test.tsx
       profile/
-        page.tsx
-        components/
-        api.ts
-        schema.ts
-        types.ts
-        test.tsx
       scoring/
         calculateCreatorScore.ts
         scoringFactors.ts
@@ -32,19 +40,7 @@ src/
         test.ts
     campaigns/
       create/
-        page.tsx
-        components/
-        api.ts
-        schema.ts
-        types.ts
-        test.tsx
       list/
-        page.tsx
-        components/
-        api.ts
-        schema.ts
-        types.ts
-        state.ts
     brands/
       profile/
       settings/
@@ -55,15 +51,48 @@ src/
     money/
 ```
 
-## Agent Task Example
+Agent workflow:
 
-> Add creator scoring to search results.
+1. Identify the business domain: `creators`, `campaigns`, or `brands`.
+2. Start in the smallest feature folder.
+3. Inspect adjacent feature folders only when the task explicitly crosses boundaries.
+4. Do not duplicate scoring, money, or auth logic.
 
-An agent should inspect:
+## Proof
+
+Task:
+
+```txt
+Add creator scoring to search results.
+```
+
+Inspect:
 
 ```txt
 src/domains/creators/search
 src/domains/creators/scoring
 ```
 
-The task should not require opening unrelated campaign or brand features.
+Do not inspect unless the task expands:
+
+```txt
+src/domains/campaigns
+src/domains/brands
+src/shared/money
+```
+
+Success criteria:
+
+```txt
+Files opened: fewer than 10
+Unrelated domains opened: 0
+Duplicate scoring logic: 0
+Nearby tests updated: yes
+```
+
+## Limits
+
+- Creator scoring has one owner: `src/domains/creators/scoring`.
+- Search may consume scoring, but must not reimplement it.
+- Shared code is for cross-domain primitives, not marketplace business rules.
+- Agent-facing docs should be compact and loaded only where useful.

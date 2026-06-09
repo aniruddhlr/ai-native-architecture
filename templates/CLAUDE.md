@@ -1,14 +1,26 @@
-# Claude Instructions
+# CLAUDE.md
 
-Follow AI Native Architecture.
+@AGENTS.md
 
-- Start with the domain and feature folder related to the request.
-- Prefer local feature changes before touching shared code.
-- Do not create broad `utils`, `helpers`, or `common` files.
-- Use explicit filenames such as `validateTaskTitle.ts` or `calculateTaskPriority.ts`.
-- Keep UI, API, schema, state, types, and tests close to the feature.
-- If a rule is specific to one domain, document it in that domain's `AGENT.md`.
-- Before editing shared code, verify at least two domains need it.
-- Keep changes focused and update tests near the feature.
+## Purpose
 
-Success criteria: a future agent can understand the feature by reading fewer than 10 files.
+Claude Code adapter for AI Native Architecture.
+
+## Load
+
+Claude Code reads `CLAUDE.md` as project memory. This file imports canonical rules from `AGENTS.md` to avoid duplicated instructions.
+
+## Protocol
+
+- Follow `AGENTS.md`.
+- Use this file only for Claude-specific additions.
+- Keep additions concise because Claude loads project memory into context.
+
+## Proof
+
+Claude should complete a feature by starting in the relevant domain folder and reading fewer than 10 files.
+
+## Limits
+
+- Do not paste the full `AGENTS.md` content here.
+- Do not store personal preferences here; use local or user-level Claude memory.

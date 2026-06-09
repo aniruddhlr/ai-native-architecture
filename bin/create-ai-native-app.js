@@ -122,27 +122,63 @@ write("tsconfig.json", `{
 `);
 
 write("vite.config.ts", `import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [react()]
+  plugins: [react()],
+  test: {
+    include: ["src/**/test.{ts,tsx}", "src/**/*.{test,spec}.{ts,tsx}"]
+  }
 });
 `);
 
-write("AGENTS.md", `# Agent Instructions
+write("AGENTS.md", `# AGENTS.md
 
-You are working in an AI Native Architecture project.
+## Purpose
 
-Rules:
-- Organize by business domain first.
+Canonical rules for agents working in this app.
+
+This file is optimized for token efficiency, not prose readability.
+
+## Load
+
+Agents should read this before changing code.
+
+## Protocol
+
+Before editing:
+
+1. Identify domain: src/domains/<domain>.
+2. Identify feature: src/domains/<domain>/<feature>.
+3. Read local schema, types, api, state, UI, and tests.
+4. Search before adding code. Reuse existing local behavior.
+5. Edit locally first. Touch src/shared only for cross-domain primitives.
+6. Avoid duplicate business logic.
+7. Update nearby tests.
+
+Architecture:
+
+- Runtime setup: src/app.
+- Product behavior: src/domains.
+- Cross-domain primitives: src/shared.
 - Keep feature code together.
-- Avoid generic utils.ts and helpers.ts.
-- Prefer explicit filenames.
-- Keep files under 500 lines.
-- Shared code must be intentionally shared.
-- Schemas belong at boundaries.
 
-Success criteria: an agent should understand and modify a feature by reading fewer than 10 files.
+## Proof
+
+Success target:
+
+\`\`\`txt
+Feature understood in fewer than 10 files.
+Unrelated domains opened: 0.
+Duplicate business logic added: 0.
+Nearby tests updated: yes.
+\`\`\`
+
+## Limits
+
+- Avoid global utils.ts, helpers.ts, common.ts, and misc.ts.
+- Do not move code to shared after one use.
+- Keep agent-loaded docs compact.
 `);
 
 write("src/app/router.tsx", `export function Router() {

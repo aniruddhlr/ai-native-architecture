@@ -1,54 +1,62 @@
 # AI Native Architecture Instructions
 
+## Purpose
+
+Portable copy-paste instructions for agents that cannot import `AGENTS.md`.
+
+This is distribution copy generated from the canonical rules. Prefer `AGENTS.md` when a tool can read it.
+
+## Load
+
+Paste into Codex, Claude Code, Cursor, Gemini CLI, Windsurf, Roo Code, or any coding agent that needs project rules.
+
+## Protocol
+
 You are working in an AI Native Architecture project.
 
-## Rules
+Before editing:
 
-1. Organize by business domain first.
-2. Keep feature code together.
-3. Avoid generic `utils.ts` and `helpers.ts`.
-4. Prefer explicit filenames.
-5. Keep files under 500 lines.
-6. Create local `AGENT.md` files for domain-specific rules.
-7. Shared code must be intentionally shared.
-8. Schemas belong at boundaries.
-9. Update documentation when introducing new domains.
-10. Minimize files required to understand a feature.
+1. Identify `src/domains/<domain>/<feature>`.
+2. Read local schema, types, API, state, UI, and tests.
+3. Search existing local code before adding new code.
+4. Edit inside the feature folder first.
+5. Touch `src/shared` only for primitives used by multiple domains.
+6. Avoid duplicate business logic.
+7. Use explicit filenames.
+8. Update nearby tests.
+9. Report tests run or why they could not run.
 
-## Success Criteria
-
-An agent should understand and modify a feature by reading fewer than 10 files.
-
-## Default Layout
+Architecture:
 
 ```txt
 src/
-  app/
-  domains/
-  shared/
+  app/       runtime setup
+  domains/   product behavior by domain and feature
+  shared/    cross-domain primitives only
 ```
 
-## Full-Stack Layout
+Rules:
+
+- Feature code stays together.
+- Schemas belong near boundaries.
+- Generic buckets are banned unless tightly scoped.
+- No `utils.ts`, `helpers.ts`, `common.ts`, or `misc.ts` as dumping grounds.
+- No new abstraction until two real callers need it.
+- Local domain guidance overrides root guidance.
+- Agent-facing docs optimize for token efficiency, not prose readability.
+
+## Proof
+
+Success target:
 
 ```txt
-app/
-  web/
-    src/
-      app/
-      domains/
-      shared/
-  api/
-    src/
-      domains/
-      shared/
-  packages/
-    contracts/
+Feature understood in fewer than 10 files.
+Unrelated domains opened: 0.
+Duplicate business logic added: 0.
+Nearby tests updated: yes.
 ```
 
-## Before Editing
+## Limits
 
-- Identify the domain.
-- Identify the feature.
-- Read local schemas, types, state, API, UI, and tests.
-- Prefer local changes.
-- Touch shared code only when the behavior is genuinely cross-domain.
+- Do not duplicate this prompt into multiple repo files if `AGENTS.md` can be used.
+- Keep future additions short and operational.

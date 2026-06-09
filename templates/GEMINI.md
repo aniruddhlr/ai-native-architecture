@@ -1,14 +1,26 @@
-# Gemini Instructions
+# GEMINI.md
 
-Use AI Native Architecture conventions.
+@AGENTS.md
 
-1. Find the relevant domain under `src/domains`.
-2. Work inside the smallest feature folder that matches the request.
-3. Keep UI, API, schemas, state, types, and tests together.
-4. Avoid vague shared files like `utils.ts` and `helpers.ts`.
-5. Prefer explicit, behavior-oriented filenames.
-6. Add shared code only when it is needed by multiple domains.
-7. Keep files small and focused.
-8. Update local domain notes when adding new domain rules.
+## Purpose
 
-Success criteria: the next agent should need fewer than 10 files to understand the feature.
+Gemini CLI adapter for AI Native Architecture.
+
+## Load
+
+Gemini CLI can load `GEMINI.md` context files and supports imports. This file imports canonical rules from `AGENTS.md` to avoid duplicated instructions.
+
+## Protocol
+
+- Follow `AGENTS.md`.
+- Keep Gemini-specific additions here only when needed.
+- Prefer local domain context over broad repo scans.
+
+## Proof
+
+Gemini should complete a feature by reading fewer than 10 files and touching no unrelated domains.
+
+## Limits
+
+- Do not paste the full `AGENTS.md` content here.
+- Keep imported context small; agent-loaded Markdown spends tokens.

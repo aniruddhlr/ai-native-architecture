@@ -1,27 +1,49 @@
 # Cursor Rules
 
-This project uses AI Native Architecture.
+## Purpose
 
-## Structure
+Install AI Native Architecture rules in Cursor without duplicating the canonical rule set.
 
-- Put product behavior in `src/domains`.
-- Put runtime setup in `src/app`.
-- Put reusable cross-domain primitives in `src/shared`.
-- Keep feature files together.
+## Load
 
-## Naming
+Cursor can use project rules and may also read `AGENTS.md`. Keep `templates/AGENTS.md` as the source of truth.
 
-- Avoid `utils.ts`, `helpers.ts`, `common.ts`, and `misc.ts`.
-- Prefer names that describe intent.
-- Good: `validateTaskTitle.ts`, `formatDueDate.ts`, `calculateTaskPriority.ts`.
+## Protocol
 
-## Editing
+Recommended setup:
 
-- Start from the relevant domain folder.
-- Keep edits local unless the request clearly crosses boundaries.
-- Add or update tests near the feature.
-- Do not move code into `shared` unless multiple domains need it.
+```txt
+.cursor/
+  rules/
+    ai-native.mdc
+AGENTS.md
+```
 
-## Goal
+Minimal `.cursor/rules/ai-native.mdc`:
 
-An AI agent should understand and modify a feature by reading fewer than 10 files.
+```md
+---
+description: AI Native Architecture project rules
+alwaysApply: true
+---
+
+Follow AGENTS.md. Optimize for local feature context, no duplicate business logic, and fewer than 10 files to understand a feature.
+```
+
+If Cursor does not load `AGENTS.md` in your setup, paste `templates/MASTER_AGENT.md` into the rule body instead.
+
+## Proof
+
+For task-list work, Cursor should start in:
+
+```txt
+src/domains/tasks/list
+```
+
+It should not scan global `components`, `hooks`, `services`, or `utils` folders.
+
+## Limits
+
+- Keep always-applied Cursor rules short.
+- Avoid maintaining a second full copy of the rules.
+- Use glob-scoped rules for large projects when only part of the codebase needs extra guidance.
