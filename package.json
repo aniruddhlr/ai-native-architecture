@@ -1,0 +1,30 @@
+{
+  "name": "create-ai-native-app",
+  "version": "0.1.0",
+  "description": "A project structure standard for apps built with AI agents, autonomous coding systems, and human developers.",
+  "license": "MIT",
+  "keywords": [
+    "ai",
+    "architecture",
+    "codex",
+    "claude",
+    "cursor",
+    "vite",
+    "react",
+    "starter"
+  ],
+  "bin": {
+    "create-ai-native-app": "./bin/create-ai-native-app.js"
+  },
+  "files": [
+    "bin",
+    "templates",
+    "examples",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node ./bin/create-ai-native-app.js --help"
+  }
+}

@@ -56,9 +56,32 @@ app/
 
 Then organize both `web` and `api` by domain and feature.
 
+## Use It
+
+Copy the agent instructions into your coding agent:
+
+- [AGENTS.md](templates/AGENTS.md)
+- [CLAUDE.md](templates/CLAUDE.md)
+- [Cursor Rules](templates/CURSOR_RULES.md)
+- [Gemini Instructions](templates/GEMINI.md)
+- [Master Agent Prompt](templates/MASTER_AGENT.md)
+
+Explore example structures:
+
+- [Todo App](examples/todo-app)
+- [CRM App](examples/crm-app)
+- [Influencer Marketplace](examples/influencer-marketplace)
+
+Try the starter CLI locally:
+
+```bash
+npx create-ai-native-app my-app
+```
+
 ## Contents
 
 - [Why](#why)
+- [Use It](#use-it)
 - [Recommended Stack](#recommended-stack)
 - [Blueprint](#blueprint)
 - [The Rule](#the-rule)
@@ -67,6 +90,7 @@ Then organize both `web` and `api` by domain and feature.
 - [File Size](#file-size)
 - [Agent Notes](#agent-notes)
 - [Migration Path](#migration-path)
+- [Benchmarks](#benchmarks)
 - [Principles](#principles)
 
 ## Why
@@ -332,6 +356,12 @@ You do not need to rewrite an existing app all at once.
 5. Add an `AGENT.md` only if the domain has rules worth preserving.
 
 Repeat as features change.
+
+## Benchmarks
+
+AI Native Architecture should be judged by whether it reduces the amount of context an agent needs.
+
+See [docs/benchmarks.md](docs/benchmarks.md) for the initial benchmark format and informal baseline.
 
 ## Principles
 
