@@ -593,11 +593,28 @@ write("src/shared/config/appConfig.ts", `export const env = {
 };
 `);
 
-console.log(`Created ${name}`);
 console.log("");
-console.log("Next steps:");
-console.log(`  cd ${name}`);
-console.log("  Start building in src/domains");
+console.log("  \x1b[36m█████╗ ██╗    ███╗   ██╗  █████╗  ████████╗██╗██╗   ██╗███████╗\x1b[0m");
+console.log(" \x1b[36m██╔══██╗██║    ████╗  ██║ ██╔══██╗ ╚══██╔══╝██║██║   ██║██╔════╝\x1b[0m");
+console.log(" \x1b[36m███████║██║    ██╔██╗ ██║ ███████║    ██║   ██║██║   ██║█████╗  \x1b[0m");
+console.log(" \x1b[36m██╔══██║██║    ██║╚██╗██║ ██╔══██║    ██║   ██║╚██╗ ██╔╝██╔══╝  \x1b[0m");
+console.log(" \x1b[36m██║  ██║██║    ██║ ╚████║ ██║  ██║    ██║   ██║ ╚████╔╝ ███████╗\x1b[0m");
+console.log(" \x1b[36m╚═╝  ╚═╝╚═╝    ╚═╝  ╚═══╝ ╚═╝  ╚═╝    ╚═╝   ╚═╝  ╚═══╝  ╚══════╝\x1b[0m");
+console.log(" ------------------------------------------------------------------");
+console.log("  AI Native Architecture — codebase standard for autonomous agents");
+console.log(" ------------------------------------------------------------------");
+console.log("");
+console.log(` \x1b[32m✔\x1b[0m Scaffolded \x1b[36m${name}\x1b[0m successfully!`);
+console.log("");
+console.log(" \x1b[1mNext steps:\x1b[0m");
+console.log(`   1. cd \x1b[36m${name}\x1b[0m`);
+console.log("   2. \x1b[32mnpm install\x1b[0m");
+console.log("   3. \x1b[32mnpm run dev\x1b[0m          \x1b[90m(to launch the developer dashboard)\x1b[0m");
+console.log("");
+console.log(" \x1b[1mAgent Instructions:\x1b[0m");
+console.log("   - Canonical agent rules live in \x1b[35mAGENTS.md\x1b[0m");
+console.log("   - Cursor system rules are pre-configured in \x1b[35m.cursor/rules/ai-native.mdc\x1b[0m");
+console.log("");
 
 function write(filePath, contents) {
   fs.writeFileSync(path.join(root, filePath), contents);
