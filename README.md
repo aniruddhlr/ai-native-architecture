@@ -11,7 +11,7 @@
 <p align="center"><strong>Fewer than 10 files · optimized context · multi-agent adapters · benchmarked · local-first</strong></p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/create-ai-native-app"><img src="https://img.shields.io/npm/v/create-ai-native-app.svg" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/@aniruddhlr/create-ai-native-app"><img src="https://img.shields.io/npm/v/@aniruddhlr/create-ai-native-app.svg" alt="npm"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
   <a href="https://github.com/aniruddhlr/ai-native-architecture/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
 </p>
@@ -40,7 +40,7 @@ AI Native Architecture organizes your codebase to minimize context waste and fil
 - **Minimal Search Space** — Eliminates human-centric folders (`components`, `hooks`, `services`), reducing search path to a single domain.
 - **Instruction Adapters** — One source-of-truth rules file (`AGENTS.md`) mapped to Claude, Cursor, Windsurf, and Gemini.
 - **Cross-Agent Predictability** — Prevent agent drift and token waste on duplicate instructions.
-- **Scaffolding Tool** — `npx create-ai-native-app` spins up pre-configured environments in 60 seconds.
+- **Scaffolding Tool** — `npx @aniruddhlr/create-ai-native-app` spins up pre-configured environments in 60 seconds.
 
 ## How it works (30 seconds)
 
@@ -67,7 +67,7 @@ AI Native Architecture organizes your codebase to minimize context waste and fil
 
 ```bash
 # 1 — Scaffold a new project
-npx create-ai-native-app my-app
+npx @aniruddhlr/create-ai-native-app my-app
 
 # 2 — Navigate and Install
 cd my-app

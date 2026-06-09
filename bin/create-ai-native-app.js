@@ -8,10 +8,10 @@ const name = args.find((arg) => !arg.startsWith("-"));
 
 if (args.includes("--help") || args.includes("-h")) {
   console.log(`
-create-ai-native-app
+@aniruddhlr/create-ai-native-app
 
 Usage:
-  npx create-ai-native-app my-app
+  npx @aniruddhlr/create-ai-native-app my-app
 
 Creates a minimal AI Native Architecture project structure.
 `);
@@ -20,7 +20,7 @@ Creates a minimal AI Native Architecture project structure.
 
 if (!name) {
   console.error("Please provide an app name.");
-  console.error("Example: npx create-ai-native-app my-app");
+  console.error("Example: npx @aniruddhlr/create-ai-native-app my-app");
   process.exit(1);
 }
 
