@@ -1,8 +1,10 @@
-# ai-native-architecture
+# AI Native Architecture
 
-A software architecture standard optimized for AI agents, autonomous coding systems, and human developers.
+> A project structure standard for apps built with AI agents, autonomous coding systems, and human developers.
 
-Traditional app structures were designed for humans browsing code by technical category:
+AI Native Architecture is a practical way to organize modern applications so agents can understand, modify, and extend code with less searching and fewer accidental side effects.
+
+Most frontend and backend templates still organize code for manual human navigation:
 
 ```txt
 src/
@@ -13,30 +15,15 @@ src/
   pages/
 ```
 
-That layout is familiar, but it spreads one feature across many folders. An AI agent has to search for the page, component, API call, state, types, validation, and tests separately before making a safe change.
-
-An AI-native structure should optimize for the way agents actually work:
-
-```txt
-domain -> feature -> complete local context
-```
-
-The goal is not to abandon Vite, React, Node, or existing tools. The goal is to change the project shape so both humans and agents can understand a feature by opening one small area of the codebase.
-
-## Core Idea
-
-Prefer vertical slices over technical layers.
-
-Instead of grouping code by what kind of file it is, group it by what user or business capability it supports.
+That works, but it scatters one feature across many folders. Agents usually receive feature-level tasks, so the codebase should expose feature-level context.
 
 ```txt
 src/
   domains/
-    creators/
-      search/
+    tasks/
+      list/
         page.tsx
-        CreatorSearchForm.tsx
-        CreatorResults.tsx
+        components/
         api.ts
         schema.ts
         types.ts
@@ -44,11 +31,75 @@ src/
         test.tsx
 ```
 
-When an agent is asked to change creator search, most of the required context is in `src/domains/creators/search`.
+Open the feature folder. See the feature. Change the feature.
 
-## Recommended App Structure
+## Start Here
 
-For a Vite React frontend with a Node backend, use this shape:
+Use this standard when you are starting a new app or gradually cleaning up an existing one.
+
+```txt
+src/
+  app/       Runtime setup
+  domains/   Product behavior
+  shared/    Cross-domain primitives
+```
+
+For full-stack TypeScript apps, use:
+
+```txt
+app/
+  web/
+  api/
+  packages/
+    contracts/
+```
+
+Then organize both `web` and `api` by domain and feature.
+
+## Contents
+
+- [Why](#why)
+- [Recommended Stack](#recommended-stack)
+- [Blueprint](#blueprint)
+- [The Rule](#the-rule)
+- [Folder Roles](#folder-roles)
+- [Naming](#naming)
+- [File Size](#file-size)
+- [Agent Notes](#agent-notes)
+- [Migration Path](#migration-path)
+- [Principles](#principles)
+
+## Why
+
+AI agents are good at reading local context, following patterns, and making focused changes. They are weaker when a simple request requires searching through loosely named files spread across the whole app.
+
+AI Native Architecture optimizes for:
+
+- Locality: code for a feature lives near the feature.
+- Intent: file names describe behavior, not vague categories.
+- Boundaries: shared code is explicit and limited.
+- Contracts: frontend and backend agree through typed schemas.
+- Scale: teams can add domains without turning `utils/` into a junk drawer.
+
+This is not a new framework. It is a structure that works with boring, proven tools.
+
+## Recommended Stack
+
+For most new TypeScript apps:
+
+```txt
+Frontend: Vite + React + TypeScript
+Backend: Node + Fastify, Hono, or Express
+Schemas: Zod or Valibot
+Tests: Vitest
+Contracts: Shared package imported by web and API
+```
+
+Vite is not the problem. Default folder organization is.
+
+Use standard tooling. Change the shape of the code.
+
+## Blueprint
 
 ```txt
 app/
@@ -59,8 +110,8 @@ app/
         providers.tsx
         layout.tsx
       domains/
-        creators/
-          search/
+        tasks/
+          list/
             page.tsx
             components/
             api.ts
@@ -68,100 +119,106 @@ app/
             types.ts
             state.ts
             test.tsx
-          profile/
+          detail/
             page.tsx
             components/
             api.ts
             schema.ts
             types.ts
             test.tsx
-        campaigns/
-          create/
-          details/
-          analytics/
+        projects/
+          list/
+          detail/
+          members/
       shared/
         ui/
-        config/
         http/
         auth/
+        config/
         dates/
       main.tsx
+
   api/
     src/
       app.ts
       server.ts
       domains/
-        creators/
-          search/
+        tasks/
+          list/
             route.ts
             service.ts
             repository.ts
             schema.ts
             types.ts
             test.ts
-          profile/
-        campaigns/
+          detail/
+        projects/
       shared/
         db/
         auth/
         errors/
         logging/
+
   packages/
     contracts/
       src/
-        creators/
-          search.ts
-          profile.ts
-        campaigns/
+        tasks/
+          list.ts
+          detail.ts
+        projects/
 ```
 
-This keeps the frontend, backend, and shared contracts separate while still organizing each by domain and feature.
+## The Rule
 
-## Vite Or Plain Node?
-
-Use Vite for frontend apps. Vite is only the build tool and dev server; it does not force the default `components/hooks/services` structure.
-
-Use Node for backend services. The backend should follow the same domain-first structure.
-
-Good default:
+Organize by product behavior first, technical role second.
 
 ```txt
-Vite + React + TypeScript for web
-Node + Fastify or Hono + TypeScript for API
-Zod or Valibot for shared schemas
-Vitest for tests
+domains/tasks/list/components/TaskList.tsx
+domains/tasks/list/api.ts
+domains/tasks/list/schema.ts
 ```
 
-Avoid making a custom build system unless the project has a real reason. Agents benefit from boring, predictable tooling. The architecture should be AI-native; the tools can stay standard.
+Not:
 
-## Agent-Friendly Rules
+```txt
+components/TaskList.tsx
+services/taskApi.ts
+types/task.ts
+hooks/useTasks.ts
+```
 
-### 1. One Feature Should Be Locally Understandable
+The traditional structure is familiar, but it forces every feature change to become a treasure hunt.
 
-Each feature folder should contain the UI, API calls, schemas, state, types, and tests needed for that feature.
+## Folder Roles
+
+### `app/`
+
+Application-level setup: routing, providers, layout, bootstrapping, environment wiring.
+
+Use this for things that affect the whole runtime.
+
+### `domains/`
+
+Business capabilities and feature slices.
+
+Examples:
+
+```txt
+domains/tasks/list
+domains/tasks/detail
+domains/projects/members
+domains/projects/settings
+```
+
+Each feature should contain the files needed to understand and modify that feature.
+
+### `shared/`
+
+Cross-domain utilities and primitives.
+
+Code should only move here after more than one domain genuinely needs it.
 
 Good:
-
-```txt
-domains/creators/search/api.ts
-domains/creators/search/schema.ts
-domains/creators/search/page.tsx
-```
-
-Avoid:
-
-```txt
-components/CreatorSearch.tsx
-hooks/useCreatorSearch.ts
-services/creatorApi.ts
-types/creator.ts
-```
-
-### 2. Shared Code Must Earn Its Place
-
-Only move code into `shared/` when at least two domains genuinely use it.
-
-Good shared folders:
 
 ```txt
 shared/ui/Button.tsx
@@ -170,7 +227,7 @@ shared/auth/session.ts
 shared/errors/AppError.ts
 ```
 
-Bad shared folders:
+Avoid:
 
 ```txt
 shared/utils.ts
@@ -179,19 +236,27 @@ shared/common.ts
 shared/misc.ts
 ```
 
-Generic names become dumping grounds and make agent retrieval worse.
+### `packages/contracts/`
 
-### 3. File Names Should Describe Intent
+Shared schemas and types for boundaries between apps.
 
-Prefer names an agent can understand without opening the file.
-
-Good:
+This is where API request and response contracts should live when both frontend and backend need them.
 
 ```txt
-calculateCreatorScore.ts
-validateInstagramHandle.ts
-formatCampaignBudget.ts
-getCreatorSearchResults.ts
+packages/contracts/src/tasks/list.ts
+```
+
+## Naming
+
+Agents rely heavily on names when deciding which files to open.
+
+Prefer:
+
+```txt
+calculateTaskPriority.ts
+validateTaskTitle.ts
+formatDueDate.ts
+getProjectMembers.ts
 ```
 
 Avoid:
@@ -200,108 +265,88 @@ Avoid:
 helpers.ts
 utils.ts
 service.ts
-data.ts
 logic.ts
+data.ts
 ```
 
-Small generic names are acceptable inside a tightly scoped feature folder, but not across the whole app.
+Generic names are acceptable only inside very small feature folders where the surrounding folder gives enough context.
 
-### 4. Keep Files Small
+## File Size
 
-Aim for files that are easy to fit into an agent context window.
+Keep files small enough for agents and humans to scan.
 
-Useful guideline:
+Useful defaults:
+
+- Components: 80-250 lines
+- Services: 100-300 lines
+- Schemas and types: 50-200 lines
+- Tests: focused on one feature or behavior
+
+When a file gets too large, split by behavior.
+
+Good:
 
 ```txt
-Component files: 80-250 lines
-Service files: 100-300 lines
-Schema/type files: 50-200 lines
-Tests: focused per feature behavior
+calculateTaskPriority.ts
+sortTasksByDueDate.ts
+groupTasksByProject.ts
 ```
 
-If a file grows beyond that, split by behavior, not by arbitrary technical category.
-
-### 5. Put Contracts Near Boundaries
-
-Shared request/response schemas should live in `packages/contracts` or another clearly named boundary package.
+Avoid:
 
 ```txt
-packages/contracts/src/creators/search.ts
+taskUtils.ts
 ```
 
-Both frontend and backend can import the same schema, which prevents agents from accidentally changing only one side of an API contract.
+## Agent Notes
 
-### 6. Add Agent Notes Where They Matter
-
-Each large domain can include a short `AGENT.md`.
+Add small `AGENT.md` files where domain rules matter.
 
 ```txt
-domains/creators/AGENT.md
+domains/tasks/AGENT.md
 ```
 
 Example:
 
 ```md
-# Creators Domain
+# Tasks Domain
 
-Owns creator discovery, profiles, scoring, and social account metadata.
+Owns task creation, task lists, task details, and task status changes.
 
 Rules:
-- Creator score is calculated in `scoring/calculateCreatorScore.ts`.
-- Public API schemas live in `packages/contracts/src/creators`.
-- Do not call external social APIs directly from UI components.
+- Task status values are defined in `packages/contracts/src/tasks/status.ts`.
+- UI components should not call the database directly.
+- API routes should validate input with the shared schema before calling services.
 ```
 
-This is more useful for agents than one huge root README.
+Agents do not need giant documentation dumps. They need short, local rules at the place where decisions are made.
 
-## What To Avoid
+## Migration Path
 
-Avoid a structure like this for AI-heavy development:
+You do not need to rewrite an existing app all at once.
 
-```txt
-src/
-  components/
-  hooks/
-  contexts/
-  services/
-  utils/
-  types/
-  pages/
-```
+1. Pick one active feature.
+2. Create a domain folder for it.
+3. Move its UI, API, schema, state, and tests together.
+4. Replace broad imports from `utils/` with specific files.
+5. Add an `AGENT.md` only if the domain has rules worth preserving.
 
-It is not wrong, but it is optimized for human categorization rather than task completion. Agents usually receive feature-level requests, so the code should be arranged around feature-level context.
+Repeat as features change.
 
-## Best Default For New Projects
+## Principles
 
-For a new AI-native app, start with:
+- Prefer vertical slices over technical layers.
+- Keep feature context local.
+- Make shared code rare and obvious.
+- Name files by intent.
+- Put schemas at system boundaries.
+- Keep files small.
+- Write docs for agents where agents need them.
 
-```txt
-app/
-  web/
-  api/
-  packages/
-    contracts/
-docs/
-  architecture/
-    decisions/
-```
+## Status
 
-Inside each app:
+This repository is a working standard, not a package. The goal is to define a structure that can be copied into new apps, adapted by existing teams, and used as a reference by AI coding agents.
 
-```txt
-src/
-  app/
-  domains/
-  shared/
-```
+## License
 
-This is simple, scalable, and agent-friendly. It works with Vite, Node, React, Fastify, Hono, Express, or most modern TypeScript stacks.
-
-The important shift is:
-
-```txt
-from: technical folders
-to: domain and feature folders
-```
-
-That gives AI agents smaller search spaces, clearer ownership boundaries, safer edits, and better long-term maintainability for humans too.
+MIT
