@@ -31,7 +31,7 @@ AI Native Architecture organizes your codebase to minimize context waste and fil
 
 <p align="center">
   <img src="docs/benchmark_chart.png" alt="AI Native Architecture in action" width="820">
-  <br/><sub>Live: 10 files inspected → 7 files opened — 30% reduction.</sub>
+  <br/><sub>Live: 10 files inspected → 2 to 5 files opened — 50-80% reduction.</sub>
 </p>
 
 ## What it does
@@ -43,6 +43,15 @@ AI Native Architecture organizes your codebase to minimize context waste and fil
 - **Scaffolding Tool** — `npx @aniruddhlr/create-ai-native-app` spins up pre-configured environments in 60 seconds.
 
 ## How it works (30 seconds)
+
+**The Kitchen Analogy:**
+Imagine you're an AI agent asked to "Make spaghetti."
+* **Traditional Architecture (By File Type):** The kitchen is organized by "type". Pots are in one cabinet, vegetables in the fridge, spices in another cabinet. You have to open and search *everything* to find the 3 things you need. This wastes valuable context tokens and causes hallucinations.
+* **AI-Native Architecture (By Feature/Domain):** The kitchen is organized by "meal". There is a "Spaghetti box" sitting on the counter. Inside is the pot, the pasta, the sauce, and the exact spices needed. You only have to open *one* box.
+
+<p align="center">
+  <img src="docs/kitchen_analogy.png" alt="Kitchen Analogy" width="600">
+</p>
 
 ```
  Agent request (e.g. "Add task priority filtering")
@@ -86,6 +95,13 @@ npm install
 npm run dev
 ```
 
+### Next Steps & Cleanup
+
+The newly created app includes a dummy `tasks` domain to demonstrate the AI-native file structure. To start building your own project:
+1. Delete the `src/domains/tasks` folder.
+2. Update `src/app/main.tsx` to remove the dummy TaskList import.
+3. Prompt your AI agent to create your first real feature domain (e.g. *"Create a `users` domain for authentication"*).
+
 <details>
 <summary><b>Running / Testing Locally</b></summary>
 
@@ -103,7 +119,7 @@ If you have cloned this repository and want to run or test the scaffolding tool 
 
 | Workload / Task | Traditional Files | AI-Native Files | Savings / Reduction |
 |-----------------|------------------:|----------------:|--------------------:|
-| Add task priority filtering | 10 | 7 | **30%** |
+| Add task priority filtering | 10 | 2 | **80%** |
 | Scaffolding routing layer | 8 | 3 | **62%** |
 | Schema validation & API update | 9 | 4 | **55%** |
 | Component state refactor | 6 | 2 | **66%** |
